@@ -1,0 +1,44 @@
+{
+    "name": "thepublicgood/is-presentable",
+    "description": "Simple Laravel model presenter trait",
+    "keywords": ["presenter", "presentation", "laravel"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/tpg/is-presentable/issues",
+        "source": "https://github.com/tpg/is-presentable"
+    },
+    "authors": [
+        {
+            "name": "THEPUBLICGOOD",
+            "email": "makers@thepublicgood.co.za"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TPG\\IsPresentable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TPG\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3",
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TPG\\IsPresentable\\IsPresentableServiceProvider"
+            ]
+        }
+    }
+}
