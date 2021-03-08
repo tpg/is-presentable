@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Deadbolt Test Suite">
+        <testsuite name="IsPresentable Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
