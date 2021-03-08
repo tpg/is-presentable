@@ -34,4 +34,16 @@ class IsPresentableTest extends TestCase
             ],
         ], $user->toArray());
     }
+
+    /**
+     * @test
+     **/
+    public function it_will_return_null_if_presentable_method_doesnt_exist()
+    {
+        $user = new User([
+            'name' => 'Test User',
+        ]);
+
+        self::assertNull($user->present()->nothing);
+    }
 }
