@@ -10,7 +10,6 @@ class IsPresentableServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-
     }
 
     public function boot(): void

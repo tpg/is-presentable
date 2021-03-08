@@ -22,7 +22,7 @@ trait IsPresentable
         return array_merge(
             parent::toArray(),
             [
-                'presentable' => $this->getPresentables()
+                'presentable' => $this->getPresentables(),
             ],
         );
     }
@@ -34,21 +34,19 @@ trait IsPresentable
         }
 
         return $this->presentables = $this->getPresentableMethods()->mapWithKeys(function (\ReflectionMethod $method) {
-
             $name = Str::after($method->name, 'presentable');
 
             return [Str::snake($name) => $this->{'presentable'.$name}()];
-
         })->toArray();
     }
 
     protected function getPresentableMethods(): Collection
     {
         $reflection = new \ReflectionClass($this);
+
         return collect($reflection->getMethods())
             ->filter(
-                fn(\ReflectionMethod $method) =>
-                    Str::startsWith($method->name, 'presentable')
+                fn (\ReflectionMethod $method) => Str::startsWith($method->name, 'presentable')
             );
     }
 }
