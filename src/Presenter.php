@@ -10,11 +10,16 @@ use TPG\IsPresentable\Contracts\PresenterInterface;
 
 class Presenter implements PresenterInterface
 {
-    public function __construct(protected Model $model, protected array $presentables)
+    protected Model $model;
+    protected array $presentables;
+
+    public function __construct(Model $model, array $presentables)
     {
+        $this->model = $model;
+        $this->presentables = $presentables;
     }
 
-    public function __get(string $key): mixed
+    public function __get(string $key)
     {
         return Arr::get(
             $this->presentables,
