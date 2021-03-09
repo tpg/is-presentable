@@ -1,5 +1,7 @@
 # Simple model presenter for Laravel
 
+[![Run Tests](https://github.com/tpg/is-presentable/actions/workflows/php.yml/badge.svg)](https://github.com/tpg/is-presentable/actions/workflows/php.yml)
+
 ## Installation
 
 IsPresentable can be installed via Composer:
