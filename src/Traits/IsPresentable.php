@@ -57,8 +57,7 @@ trait IsPresentable
 
         return collect($reflection->getMethods())
             ->filter(
-                fn (\ReflectionMethod $method) =>
-                    $method->name !== 'presentable'
+                fn (\ReflectionMethod $method) => $method->name !== 'presentable'
                     && Str::startsWith($method->name, 'presentable')
             );
     }
