@@ -42,7 +42,7 @@ public function presentableUsername(): string
 We now have access to the presenter on any user model like this:
 
 ```php
-return $user->present()->username;
+return $user->presentable()->username;
 ```
 
 The `IsPresentable` trait will also extend the `toArray()` method on the model meaning that any presentable values will

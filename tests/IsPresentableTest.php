@@ -15,7 +15,7 @@ class IsPresentableTest extends TestCase
             'name' => 'Test User',
         ]);
 
-        self::assertSame('presentable-test', $user->present()->test);
+        self::assertSame('presentable-test', $user->presentable()->test);
     }
 
     /**
@@ -44,6 +44,6 @@ class IsPresentableTest extends TestCase
             'name' => 'Test User',
         ]);
 
-        self::assertNull($user->present()->nothing);
+        self::assertNull($user->presentable()->nothing);
     }
 }

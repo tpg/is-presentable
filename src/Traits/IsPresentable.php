@@ -12,7 +12,7 @@ trait IsPresentable
 {
     protected $presentables = [];
 
-    public function present(): Presenter
+    public function presentable(): Presenter
     {
         return new Presenter($this, $this->getPresentables());
     }
@@ -20,11 +20,22 @@ trait IsPresentable
     public function toArray(): array
     {
         return array_merge(
-            parent::toArray(),
+            $this->getBaseAttributes(),
             [
                 'presentable' => $this->getPresentables(),
             ],
         );
+    }
+
+    protected function getBaseAttributes(): array
+    {
+        $parent = [];
+
+        if (method_exists(parent::class, 'toArray')) {
+            $parent = parent::toArray();
+        }
+
+        return $parent;
     }
 
     protected function getPresentables(bool $refresh = false): array
@@ -46,7 +57,9 @@ trait IsPresentable
 
         return collect($reflection->getMethods())
             ->filter(
-                fn (\ReflectionMethod $method) => Str::startsWith($method->name, 'presentable')
+                fn (\ReflectionMethod $method) =>
+                    $method->name !== 'presentable'
+                    && Str::startsWith($method->name, 'presentable')
             );
     }
 }
