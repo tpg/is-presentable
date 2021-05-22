@@ -6,6 +6,8 @@ namespace TPG\IsPresentable\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use ReflectionMethod;
 use TPG\IsPresentable\Presenter;
 
 trait IsPresentable
@@ -20,31 +22,25 @@ trait IsPresentable
     public function toArray(): array
     {
         return array_merge(
-            $this->getBaseAttributes(),
+            $this->getOriginalAttributes(),
             [
-                'presentable' => $this->getPresentables(),
+                config('presentable.key') => $this->getPresentables(),
             ],
         );
     }
 
-    protected function getBaseAttributes(): array
+    protected function getOriginalAttributes(): array
     {
-        $parent = [];
-
         if (method_exists(parent::class, 'toArray')) {
-            $parent = parent::toArray();
+            return parent::toArray();
         }
 
-        return $parent;
+        return [];
     }
 
-    protected function getPresentables(bool $refresh = false): array
+    protected function getPresentables(): array
     {
-        if ($this->presentables && ! $refresh) {
-            return $this->presentables;
-        }
-
-        return $this->presentables = $this->getPresentableMethods()->mapWithKeys(function (\ReflectionMethod $method) {
+        return $this->getPresentableMethods()->mapWithKeys(function (ReflectionMethod $method) {
             $name = Str::after($method->name, 'presentable');
 
             return [Str::snake($name) => $this->{'presentable'.$name}()];
@@ -53,11 +49,11 @@ trait IsPresentable
 
     protected function getPresentableMethods(): Collection
     {
-        $reflection = new \ReflectionClass($this);
+        $reflection = new ReflectionClass($this);
 
         return collect($reflection->getMethods())
             ->filter(
-                fn (\ReflectionMethod $method) => $method->name !== 'presentable'
+                fn (ReflectionMethod $method) => $method->name !== 'presentable'
                     && Str::startsWith($method->name, 'presentable')
             );
     }

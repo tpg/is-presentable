@@ -38,6 +38,25 @@ class IsPresentableTest extends TestCase
     /**
      * @test
      **/
+    public function it_can_have_a_different_array_key(): void
+    {
+        $user = new User([
+            'name' => 'Test User',
+        ]);
+
+        config(['presentable.key' => 'test-key']);
+
+        self::assertSame([
+            'name' => 'Test User',
+            'test-key' => [
+                'test' => 'presentable-test',
+            ],
+        ], $user->toArray());
+    }
+
+    /**
+     * @test
+     **/
     public function it_will_return_null_if_presentable_method_doesnt_exist()
     {
         $user = new User([
