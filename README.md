@@ -70,3 +70,26 @@ In a JavaScript app you can access that `username` with:
 ```javascript
 const username = user.presentable.username;
 ```
+
+## Configuration
+There is a single solitary configuration option. You can change the key that is used when casting to an array. To publish the configuration file, run the followin Artisan command:
+
+```
+php ./artisan vendor:publish --provider=TPG\IsPresentable\IsPresentableServiceProvider
+```
+
+This will place a `presentable.php` configuration file in your `config` directory. To change the array key, update the `key` property:
+
+```php
+return [
+
+    'key' => 'presentation',
+
+];
+```
+
+Now you can you presentable data with:
+
+```javascript
+const username = user.presentation.username;
+```
