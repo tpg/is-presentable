@@ -29,8 +29,8 @@ class User extends Model {
 }
 ```
 
-You can now create new presentable methods by prefixing them with `presentable`. As an example, our `User` might need
-a `username` that is calculated on the fly. We can write a presenter like this:
+You can now create new "presentable" methods by prefixing them with `presentable`. As an example, our `User` might need
+a `username` that is calculated on the fly. We can write a "presentable" method like this:
 
 ```php
 public function presentableUsername(): string
@@ -69,6 +69,26 @@ In a JavaScript app you can access that `username` with:
 
 ```javascript
 const username = user.presentable.username;
+```
+
+To make this a little neater, you can create traits for your presentable methods and use the `IsPresentable` trait inside your presentable traits:
+
+```php
+trait UserPresenter
+{
+    use IsPresentable;
+    // ...
+}
+```
+
+Then on your `User` model, use just the `UserPresenter` trait:
+
+```php
+class User extends Authenticatable
+{
+    use UserPresenter;
+    // ...
+}
 ```
 
 ## Configuration
