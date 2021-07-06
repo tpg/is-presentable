@@ -16,7 +16,7 @@ trait IsPresentable
 
     public function presentable(): Presenter
     {
-        return new Presenter($this, $this->getPresentables());
+        return new Presenter($this->getPresentables());
     }
 
     public function toArray(): array
