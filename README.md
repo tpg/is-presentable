@@ -1,6 +1,6 @@
 # Simple model presenter for Laravel
 
-[![Run Tests](https://github.com/tpg/is-presentable/actions/workflows/php.yml/badge.svg)](https://github.com/tpg/is-presentable/actions/workflows/php.yml)
+[![Tests](https://github.com/tpg/is-presentable/actions/workflows/php.yml/badge.svg?branch=2.x)](https://github.com/tpg/is-presentable/actions/workflows/php.yml)
 
 This simple package can help you format a model's data so that it's presentable in a browser. For example, if you needed to print the creation date of a model in a view, and you did something like this:
 
