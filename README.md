@@ -154,9 +154,65 @@ class User extends Authenticatable
 Sometimes you won't want to include presenters when the model is cast to an array. You can do this by implementing the `IsHidden` interface in your presenter class:
 
 ```php
-class UserPresenter extends Presenter implements IsHidden
+class UsernamePresenter extends Presenter implements IsHidden
 {
     // ..
+}
+```
+
+## Accessing the attribute name
+The presenter class has access to the attribute name that you set as the key in your `$presenters` array:
+
+```php
+class DatePresenter extends Presentable
+{
+    public function render(): string|null
+    {
+        return $this->model->{$this->attribute};
+    }
+}
+```
+
+This can be very useful for creating something like a `DatePresenter` that is used to present ALL dates and times in a consistent way. You could even use the same presenter for different attributes on the same model:
+
+```php
+class User extends Model
+{
+    use IsPresentable;
+    
+    protected $presenters = [
+        'created_at' => DatePresenter::class,
+        'updated_at' => DatePresenter::class,
+    ];
+}
+```
+
+## Passing data into presenters
+Using presenter classes, it's possible to pass arbitrary data into the presenter class which can be used to alter how the presenter reacts. You can do this by making a small change to the `$presenters` attribute on the model class. Instead of passing a string class path, you can pass a simple array with the first element being the class path and the second being the data you want to pass:
+
+```php
+class User extends Model
+{
+    use IsPresentable;
+    
+    $presenters = [
+        'date' => [            
+            DatePresenter::class,
+            'created_at'
+        ],
+    ];
+}
+```
+
+In your presenter class, the second element can be accessed with `$this->option`:
+
+```php
+class DatePresenter extends Presentable
+{
+    public function render(): string|null
+    {
+        return $this->model->{$this->option};
+    }
 }
 ```
 
