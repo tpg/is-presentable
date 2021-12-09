@@ -51,7 +51,7 @@ class User extends Model {
 }
 ```
 
-Now create a new presenter class for the attribute you'd like to present. Make sure to extend the `Presenter` class:
+Now create a new presenter class for the attribute you'd like to present. Make sure to extend the `Presentable` class. The model you are presenting will be injected as the `model` class attribute so you can reference it with `$this->model`. Here's a simple `CreatedAtPresenter` class:
 
 ```php
 <?php
@@ -59,18 +59,18 @@ Now create a new presenter class for the attribute you'd like to present. Make s
 namespace App\Http\Presenters;
 
 use App\Models\User;
-use TPG\IsPresentable\Presenter;
+use TPG\IsPresentable\Presentable;
 
-class CreatedAtPresenter extends Presenter
+class CreatedAtPresenter extends Presentable
 {
-    public function render(User $user): ?string
+    public function render(): string
     {
-        return $user->created_at?->format('d F Y H:i a');
+        return $this->model->created_at->format('d F Y H:i a');
     }
 }
 ```
 
-Now assign this presenter class to the attribute name in your model's `$presenters` array:
+Now you can assign this presenter class to the attribute name in your model's `$presenters` array:
 
 ```php
 use App\Http\Presenters\CreatedAtPresenter;
@@ -86,7 +86,7 @@ class User extends Model {
 }
 ```
 
-now you'll have access to the presentable data like this:
+This will give have access to the rendered data like this:
 
 ```
 $user->presentable()->created_at;
@@ -120,7 +120,7 @@ If you're using something like Vue, and casting the array as a JSON object (Lara
 If you don't to create classes or you're adding just one presenter to a model that will not be used elsewhere, you can create simple "accessor" methods directly on the model class by prefixing them with the word `presentable`. As an example, a `User` might need a `username` that is calculated on the fly. We can write a "presentable" method like this:
 
 ```php
-public function presentableUsername(): string
+public function presentableUsername(): ?string
 {
     return Str::slug($this->name);  
 }
@@ -133,7 +133,7 @@ trait UserPresenter
 {
     use IsPresentable;
     
-    public function presentableUsername(): string
+    public function presentableUsername(): ?string
     {
         // ...
     }
@@ -161,29 +161,6 @@ class UserPresenter extends Presenter implements IsHidden
 ```
 
 You will still have access to presenter in PHP, but it will not be included in the result when casting to an array.
-
-## Dealing with missing data
-If you're using class presenters, IsPresentable will automatically fail gracefully if the attribute you are trying to present has no data. For example:
-
-```php 
-public function render(User $user): string
-{
-    return $user->username;
-}
-```
-
-You would expect that to fail if the `username` attribute was `null`, since the method MUST return a string. However, in this case, IsPresentable will simply return an empty string for you.
-
-The same is true for presenter methods on the model class:
-
-```php
-public function presentableUsername(): string
-{
-    return $user->username;
-}
-```
-
-This will also return an empty string if `username` doesn't exist.
 
 ## Configuration
 There is a single solitary configuration option. You can change the key that is used when casting to an array. To publish the configuration file, run the followin Artisan command:
