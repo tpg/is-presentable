@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Additions
 - Model classes can now specify presentable classes by passing the attribute name and the class path to the `$presenters` array attribute.
 - If the class cannot be found, a new `InvalidPresentableClass` exception will be thrown.
+- Added the ability to hide presenters from the array by implementing the `IsHidden` interface.
 
 ## [1.1.0] 06-07-2021
 ### Changes

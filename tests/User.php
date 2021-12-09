@@ -15,6 +15,7 @@ class User extends Model
 
     protected array $presenters = [
         'created_at' => CreatedAtPresenter::class,
+        'hidden' => HiddenPresenter::class,
     ];
 
     public function presentableTest(): string
