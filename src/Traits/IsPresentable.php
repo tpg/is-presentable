@@ -44,7 +44,6 @@ trait IsPresentable
         $presenters = collect($this->presenters)->merge($this->getPresentableMethods());
 
         return $presenters->mapWithKeys(function (string|ReflectionMethod $value, $key) {
-
             if (is_string($value)) {
                 return [$key => $this->renderClass($value)];
             }
