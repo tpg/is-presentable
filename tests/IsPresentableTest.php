@@ -44,7 +44,8 @@ class IsPresentableTest extends TestCase
      **/
     public function class_presenters_can_have_options(): void
     {
-        $user = new class extends Model {
+        $user = new class extends Model
+        {
             use IsPresentable;
 
             protected $guarded = [];
@@ -62,7 +63,8 @@ class IsPresentableTest extends TestCase
      **/
     public function class_presenters_can_use_the_attribute(): void
     {
-        $user = new class extends Model {
+        $user = new class extends Model
+        {
             use IsPresentable;
 
             protected array $presenters = [
