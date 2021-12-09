@@ -8,15 +8,16 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
+use TPG\IsPresentable\Exceptions\InvalidPresentableClass;
 use TPG\IsPresentable\Presenter;
 
 trait IsPresentable
 {
-    protected $presentables = [];
+    protected array $presentables = [];
 
     public function presentable(): Presenter
     {
-        return new Presenter($this->getPresentables());
+        return new Presenter($this->getPresenters());
     }
 
     public function toArray(): array
@@ -24,7 +25,7 @@ trait IsPresentable
         return array_merge(
             $this->getOriginalAttributes(),
             [
-                config('presentable.key') => $this->getPresentables(),
+                config('presentable.key') => $this->getPresenters(),
             ],
         );
     }
@@ -38,10 +39,17 @@ trait IsPresentable
         return [];
     }
 
-    protected function getPresentables(): array
+    protected function getPresenters(): array
     {
-        return $this->getPresentableMethods()->mapWithKeys(function (ReflectionMethod $method) {
-            $name = Str::after($method->name, 'presentable');
+        $presenters = collect($this->presenters)->merge($this->getPresentableMethods());
+
+        return $presenters->mapWithKeys(function (string|ReflectionMethod $value, $key) {
+
+            if (is_string($value)) {
+                return [$key => $this->renderClass($value)];
+            }
+
+            $name = Str::after($value->name, 'presentable');
 
             return [Str::snake($name) => $this->{'presentable'.$name}()];
         })->toArray();
@@ -56,5 +64,14 @@ trait IsPresentable
                 fn (ReflectionMethod $method) => $method->name !== 'presentable'
                     && Str::startsWith($method->name, 'presentable')
             );
+    }
+
+    protected function renderClass(string $className): string
+    {
+        if (! class_exists($className)) {
+            throw new InvalidPresentableClass($className);
+        }
+
+        return (new $className($this))?->render() ?? '';
     }
 }

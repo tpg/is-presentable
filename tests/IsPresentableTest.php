@@ -30,6 +30,7 @@ class IsPresentableTest extends TestCase
         self::assertSame([
             'name' => 'Test User',
             'presentable' => [
+                'created_at' => now()->format('d F Y H:i a'),
                 'test' => 'presentable-test',
             ],
         ], $user->toArray());
@@ -49,6 +50,7 @@ class IsPresentableTest extends TestCase
         self::assertSame([
             'name' => 'Test User',
             'test-key' => [
+                'created_at' => now()->format('d F Y H:i a'),
                 'test' => 'presentable-test',
             ],
         ], $user->toArray());

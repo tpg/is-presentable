@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0] unreleased
+### Additions
+- Model classes can now specify presentable classes by passing the attribute name and the class path to the `$presenters` array attribute.
+- If the class cannot be found, a new `InvalidPresentableClass` exception will be thrown.
+
 ## [1.1.0] 06-07-2021
 ### Changes
 - The signature for the `Presenter` class has been changed. The first `Model` parameter has been removed as it was never actually used.
