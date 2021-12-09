@@ -42,8 +42,8 @@ trait IsPresentable
     {
         $presenters = collect($this->presenters)->merge($this->getPresenterMethods());
 
-        return $presenters->mapWithKeys(function (string|ReflectionMethod $value, $key) use ($excludeHidden) {
-            if (is_string($value)) {
+        return $presenters->mapWithKeys(function (string|array|ReflectionMethod $value, $key) use ($excludeHidden) {
+            if (is_array($value) || is_string($value)) {
                 return $this->renderClass($value, $key, $excludeHidden);
             }
 
@@ -64,16 +64,22 @@ trait IsPresentable
             );
     }
 
-    protected function renderClass(string $className, string $attribute, bool $excludeIfHidden = false): array
+    protected function renderClass(string|array $className, string $attribute, bool $excludeIfHidden = false): array
     {
-        if (! class_exists($className)) {
-            throw new InvalidPresentableClass($className);
+        $class = $className;
+        $option = null;
+
+        if (is_array($class)) {
+            [$class, $option] = $className;
+        }
+        if (! class_exists($class)) {
+            throw new InvalidPresentableClass($class);
         }
 
-        if ($excludeIfHidden && (new ReflectionClass($className))->implementsInterface(IsHidden::class)) {
+        if ($excludeIfHidden && (new ReflectionClass($class))->implementsInterface(IsHidden::class)) {
             return [];
         }
 
-        return [$attribute => (new $className($this))?->render() ?? ''];
+        return [$attribute => (new $class($this, $attribute, $option))?->render() ?? ''];
     }
 }

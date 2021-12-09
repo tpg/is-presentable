@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TPG\Tests;
 
+use Illuminate\Database\Eloquent\Model;
+use TPG\IsPresentable\Traits\IsPresentable;
+
 class IsPresentableTest extends TestCase
 {
     /**
@@ -34,6 +37,54 @@ class IsPresentableTest extends TestCase
                 'test' => 'presentable-test',
             ],
         ], $user->toArray());
+    }
+
+    /**
+     * @test
+     **/
+    public function class_presenters_can_have_options(): void
+    {
+        $user = new class extends Model {
+            use IsPresentable;
+
+            protected $guarded = [];
+
+            protected array $presenters = [
+                'options' => [OptionPresenter::class, ['option 1', 'option 2']],
+            ];
+        };
+
+        $this->assertSame('option 1 + option 2', $user->presentable()->options);
+    }
+
+    /**
+     * @test
+     **/
+    public function class_presenters_can_use_the_attribute(): void
+    {
+        $user = new class extends Model {
+            use IsPresentable;
+
+            protected array $presenters = [
+                'name' => AttributePresenter::class,
+                'age' => AttributePresenter::class,
+            ];
+
+            public function getNameAttribute(): string
+            {
+                return 'slim';
+            }
+
+            public function getAgeAttribute(): string
+            {
+                return 'sixty';
+            }
+        };
+
+        $this->assertSame([
+            'name' => 'slim',
+            'age' => 'sixty',
+        ], $user->toArray()['presentable']);
     }
 
     /**
