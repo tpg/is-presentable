@@ -15,7 +15,8 @@ class ExceptionTest extends TestCase
      **/
     public function it_will_throw_an_exception_if_the_class_is_invalid(): void
     {
-        $user = new class extends Model {
+        $user = new class extends Model
+        {
             use IsPresentable;
 
             protected $guarded = [];
