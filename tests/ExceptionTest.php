@@ -21,7 +21,7 @@ class ExceptionTest extends TestCase
 
             protected $guarded = [];
 
-            protected $presenters = [
+            protected array $presentables = [
                 'bad_presenter' => 'ClassDoesNotExist',
             ];
         };

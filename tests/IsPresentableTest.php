@@ -50,7 +50,7 @@ class IsPresentableTest extends TestCase
 
             protected $guarded = [];
 
-            protected array $presenters = [
+            protected array $presentables = [
                 'options' => [OptionPresenter::class, ['option 1', 'option 2']],
             ];
         };
@@ -67,7 +67,7 @@ class IsPresentableTest extends TestCase
         {
             use IsPresentable;
 
-            protected array $presenters = [
+            protected array $presentables = [
                 'name' => AttributePresenter::class,
                 'age' => AttributePresenter::class,
             ];

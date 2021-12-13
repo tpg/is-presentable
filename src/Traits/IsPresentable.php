@@ -10,13 +10,24 @@ use ReflectionClass;
 use ReflectionMethod;
 use TPG\IsPresentable\Contracts\IsHidden;
 use TPG\IsPresentable\Exceptions\InvalidPresentableClass;
+use TPG\IsPresentable\IsPresentableService;
 use TPG\IsPresentable\Presenter;
 
 trait IsPresentable
 {
     public function presentable(): Presenter
     {
-        return new Presenter($this->getPresenters());
+        return new Presenter($this->instance()->getPresentables($this));
+    }
+
+    public function setPresentables(array $presentable): void
+    {
+        $this->presentables = $presentable;
+    }
+
+    public function getPresentables(): array
+    {
+        return $this?->presentables ?? [];
     }
 
     public function toArray(): array
@@ -24,7 +35,7 @@ trait IsPresentable
         return array_merge(
             $this->getOriginalAttributes(),
             [
-                config('presentable.key') => $this->getPresenters(true),
+                config('presentable.key') => $this->instance()->getPresentables($this, true),
             ],
         );
     }
@@ -38,48 +49,8 @@ trait IsPresentable
         return [];
     }
 
-    protected function getPresenters(bool $excludeHidden = false): array
+    protected function instance(): IsPresentableService
     {
-        $presenters = collect($this->presenters)->merge($this->getPresenterMethods());
-
-        return $presenters->mapWithKeys(function (string|array|ReflectionMethod $value, $key) use ($excludeHidden) {
-            if (is_array($value) || is_string($value)) {
-                return $this->renderClass($value, $key, $excludeHidden);
-            }
-
-            $name = Str::after($value->name, 'presentable');
-
-            return [Str::snake($name) => $this->{'presentable'.$name}()];
-        })->toArray();
-    }
-
-    protected function getPresenterMethods(): Collection
-    {
-        $reflection = new ReflectionClass($this);
-
-        return collect($reflection->getMethods())
-            ->filter(
-                fn (ReflectionMethod $method) => $method->name !== 'presentable'
-                    && Str::startsWith($method->name, 'presentable')
-            );
-    }
-
-    protected function renderClass(string|array $className, string $attribute, bool $excludeIfHidden = false): array
-    {
-        $class = $className;
-        $option = null;
-
-        if (is_array($class)) {
-            [$class, $option] = $className;
-        }
-        if (! class_exists($class)) {
-            throw new InvalidPresentableClass($class);
-        }
-
-        if ($excludeIfHidden && (new ReflectionClass($class))->implementsInterface(IsHidden::class)) {
-            return [];
-        }
-
-        return [$attribute => (new $class($this, $attribute, $option))?->render() ?? ''];
+        return app('is-presentable');
     }
 }

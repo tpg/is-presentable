@@ -13,7 +13,7 @@ class User extends Model
 
     protected $guarded = [];
 
-    protected array $presenters = [
+    protected array $presentables = [
         'created_at' => CreatedAtPresenter::class,
         'hidden' => HiddenPresenter::class,
     ];

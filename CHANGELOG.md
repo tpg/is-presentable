@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - If the class cannot be found, a new `InvalidPresentableClass` exception will be thrown.
 - Added the ability to hide presenters from the array by implementing the `IsHidden` interface.
 - Added the presenter options. Options can be passed to presenter classes by passing an array to each item in he `$presenters` array.
-.- Added the ability for presenter classes to have access to the attribute from the `$presenters` array.
+- Added the ability for presenter classes to have access to the attribute from the `$presenters` array.
+- Default presentables can be added to the `presentable` config file and will be added to all `IsPresentable` classes.
 
 ## [1.1.0] 06-07-2021
 ### Changes
