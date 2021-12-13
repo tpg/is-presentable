@@ -13,7 +13,7 @@ return [
      * set on any class that uses the `IsPresentable` trait.
      */
     'defaults' => [
-//        'created_at' => App\Http\Presenters\CreatedAtPresenter::class,
-    ]
+        //        'created_at' => App\Http\Presenters\CreatedAtPresenter::class,
+    ],
 
 ];
