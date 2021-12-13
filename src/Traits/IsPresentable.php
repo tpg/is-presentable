@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TPG\IsPresentable\Traits;
 
 use TPG\IsPresentable\IsPresentableService;
+use TPG\IsPresentable\PresentableCollection;
 use TPG\IsPresentable\Presenter;
 
 trait IsPresentable
@@ -21,8 +22,10 @@ trait IsPresentable
 
     public function getPresentables(): array
     {
-        return $this?->presentables ?? [];
+        return $this->isPresentableCollection()->toArray();
     }
+
+    abstract public function isPresentableCollection(): PresentableCollection;
 
     public function toArray(): array
     {

@@ -6,6 +6,7 @@ namespace TPG\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 use TPG\IsPresentable\Exceptions\InvalidPresentableClass;
+use TPG\IsPresentable\PresentableCollection;
 use TPG\IsPresentable\Traits\IsPresentable;
 
 class ExceptionTest extends TestCase
@@ -21,9 +22,11 @@ class ExceptionTest extends TestCase
 
             protected $guarded = [];
 
-            protected array $presentables = [
-                'bad_presenter' => 'ClassDoesNotExist',
-            ];
+            public function isPresentableCollection(): PresentableCollection
+            {
+                return (new PresentableCollection())
+                    ->add('bad_presenter', 'ClassDoesNotExist');
+            }
         };
 
         $this->expectException(InvalidPresentableClass::class);

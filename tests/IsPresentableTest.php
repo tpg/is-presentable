@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TPG\Tests;
 
 use Illuminate\Database\Eloquent\Model;
+use TPG\IsPresentable\PresentableCollection;
 use TPG\IsPresentable\Traits\IsPresentable;
 
 class IsPresentableTest extends TestCase
@@ -50,9 +51,11 @@ class IsPresentableTest extends TestCase
 
             protected $guarded = [];
 
-            protected array $presentables = [
-                'options' => [OptionPresenter::class, ['option 1', 'option 2']],
-            ];
+            public function isPresentableCollection(): PresentableCollection
+            {
+                return (new PresentableCollection())
+                    ->add('options', OptionPresenter::class, ['option 1', 'option 2']);
+            }
         };
 
         $this->assertSame('option 1 + option 2', $user->presentable()->options);
@@ -67,10 +70,12 @@ class IsPresentableTest extends TestCase
         {
             use IsPresentable;
 
-            protected array $presentables = [
-                'name' => AttributePresenter::class,
-                'age' => AttributePresenter::class,
-            ];
+            public function isPresentableCollection(): PresentableCollection
+            {
+                return (new PresentableCollection())
+                    ->add('name', AttributePresenter::class)
+                    ->add('age', AttributePresenter::class);
+            }
 
             public function getNameAttribute(): string
             {
