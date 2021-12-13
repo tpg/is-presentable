@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TPG\IsPresentable;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class PresentableCollection
@@ -18,7 +17,6 @@ class PresentableCollection
     {
         $this->presentables = new Collection($presentables);
     }
-
 
     public function add(string $attribute, string $presentable, array $data = []): self
     {
@@ -42,7 +40,7 @@ class PresentableCollection
                 $attribute => [
                     $presentable['class'],
                     $presentable['data'],
-                ]
+                ],
             ];
         })->toArray();
     }
