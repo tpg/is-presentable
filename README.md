@@ -28,7 +28,7 @@ Laravel automatically hands the `created_at` timestamp to `Carbon` so this actua
 As always, install into your Laravel app using Composer:
 
 ```
-composer require thepublicgood/is-presentable
+composer require thepublicgood/is-presentable=^2.0.0-beta
 ```
 
 ## Usage
