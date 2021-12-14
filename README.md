@@ -3,25 +3,25 @@
 
 [![Tests](https://github.com/tpg/is-presentable/actions/workflows/php.yml/badge.svg?branch=2.x)](https://github.com/tpg/is-presentable/actions/workflows/php.yml)
 
-IsPresentable is a simple package to help you format you Laravel model's data so that it's presentable in a browser. For example, if you needed to print the creation date of a model in a view, and you wrote:
+IsPresentable is a simple package to help you format you Laravel model's data so that it's presentable in your views. For example, if you needed to print the creation date of a model in a Blade view, and you wrote:
 
 ```php
 <p>{{ $model->created_at }}</p>
 ```
 
-You'd get output that looks a little this this:
+You'd get HTML output that looks a little this this:
 
 ```
 <p>2021-12-09 03:04:22</p>
 ```
 
-That's fine, but it's not great. What if you wanted to format it? Well, you could do:
+That's fine, but it's not great. What if you wanted to format it? Well, you could do this:
 
 ```
 <p>{{ $model->created_at->format('d F Y H:i a') }}</p>
 ```
 
-Laravel automatically hands the `created_at` timestamp to `Carbon` so this actually works nicely. But what if you need to use the same format in a whole lot of places. Now it gets frustrating. You could create a model accessor, which would work just fine, but then it feels like it's litering up your model with presentation data. And do you add the same accessor to all your models? That's where IsPresenter comes in.
+Laravel automatically hands the `created_at` timestamp to `Carbon` so this actually works nicely. But what if you need to use the same format in a whole lot of places. Now it gets frustrating. You could create a model accessor, which would work just fine, but then it feels like it's litering up your model with presentation data. And do you add the same accessor to all your models? This is where IsPresentable comes in.
 
 ## Installation
 
@@ -39,8 +39,6 @@ composer require thepublicgood/is-presentable=^2.0
 
 First add the `IsPresentable` trait to your model class:
 ```php
-<?php
-
 namespace App\Models\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -53,7 +51,7 @@ class User extends Model {
 }
 ```
 
-Now create a new presenter class for the attribute you'd like to present. Make sure to extend the `Presentable` class. The model you are presenting will be injected as the `model` class attribute so you can reference it with `$this->model`. Here's a simple `CreatedAtPresentable` class:
+Now create a new presentable class for the attribute you'd like to present. Make sure to extend the `Presentable` abstract class. The model you are presenting will be injected as a `$model` class property so you can reference it with `$this->model`. Here's a simple `CreatedAtPresentable` class:
 
 ```php
 <?php
@@ -88,13 +86,15 @@ class User extends Model {
 }
 ```
 
-This will give you access to the rendered data like this:
+So now, in your Blade view file, you can do this:
 
-```
-$user->presentable()->created_at;
+```php
+<p>{{ $user->presentable()->created_at }}</p>
 ```
 
-It can be really useful to create presentables as classes like this as they are reusable. A `created_at` column is fairly standard on Laravel models, so you can use the same class to format that data on any model now. No need to write another presentable for each model. Just add it to the `$presentables` array wherever you need it.
+No more calls to `format` in your views.
+
+It can be really useful to create presentables as classes like this as they are reusable. A `created_at` column is fairly standard on Laravel models, so you can use the same class to format that data on any model. No need to write another presentable for each model. Just add it to the `$presentables` array wherever you need it.
 
 ### Using `presentable` methods
 
@@ -131,11 +131,11 @@ class User extends Authenticatable
 }
 ```
 
-This allows for a bit of reusability as the traits can be used by multiple models.
+This allows for a bit of reusability as these traits can also be used by multiple models.
 
 ## Using with JavaScript
 
-The `IsPresentable` trait will also extend the `toArray()` method and add the rendered data to the result. This is useful if you need to access your presenters in a JavaScript front-end. A `presentable` sub-array containing all the formatted data will be added to the resulting array. For example, `$user->toArray()` would result in something like:
+The `IsPresentable` trait will extend the `toArray()` method and add the rendered data to the result. This is useful if you need to access your presenters in a JavaScript front-end. A `presentable` child array containing all the formatted data will be added to the resulting array. For example, `$user->toArray()` would result in something like:
 
 ```json
 {
@@ -161,7 +161,7 @@ If you're using a front-end framework like Vue, and the array gets cast as a JSO
 
 ### Hiding presenters
 
-Sometimes you won't want to include presenters when the model is cast to an array. You can do this by implementing the `IsHidden` interface in your presentable class:
+If for whatever reason you don't want to include presented data when the model is cast to an array, you can implement the `IsHidden` interface in your presentable class to hide that data:
 
 ```php
 class UsernamePresentable extends Presenter implements IsHidden
@@ -265,7 +265,7 @@ class User extends Model
 ```
 
 ## Default presentables
-Sometimes it can be useful to speficy a default set of presentable classes that will be automatically used for all model classes that use the `IsPresentable` trait. You can add defaults into the `presentable.php` configuration file. First, publish the configutation file using Artisan:
+Sometimes it can be useful to specify a default set of presentable classes that will be automatically used for all model classes that use the `IsPresentable` trait. You can add defaults into the `presentable.php` configuration file. First, publish the configutation file using Artisan:
 
 ```shell
 php artisan vendor:publish --provider=TPG\IsPresentable\IsPresentableServiceProvider
