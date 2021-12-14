@@ -2,6 +2,8 @@
 
 [![Run Tests](https://github.com/tpg/is-presentable/actions/workflows/php.yml/badge.svg)](https://github.com/tpg/is-presentable/actions/workflows/php.yml)
 
+> There's a brand new version 2 on the way. If you'd like to try it out, check out the `2.x` branch.
+
 ## Installation
 
 IsPresentable can be installed via Composer:
