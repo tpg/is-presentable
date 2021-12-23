@@ -127,7 +127,7 @@ class IsPresentableTest extends TestCase
     public function presentables_can_be_cast_as_an_array(): void
     {
         $user = new User([
-            'name' => 'Test User'
+            'name' => 'Test User',
         ]);
 
         self::assertSame([
