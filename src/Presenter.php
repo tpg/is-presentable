@@ -9,7 +9,7 @@ use TPG\IsPresentable\Contracts\PresenterInterface;
 
 class Presenter implements PresenterInterface
 {
-    protected array $presentables;
+    protected array $presentables = [];
 
     public function __construct(array $presentables)
     {
@@ -23,5 +23,10 @@ class Presenter implements PresenterInterface
             $key,
             null
         );
+    }
+
+    public function toArray(): array
+    {
+        return $this->presentables;
     }
 }

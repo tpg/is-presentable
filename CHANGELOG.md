@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-beta.2] 23-12-2021
+### Additions
+- The `Presenter` class now has a `toArray()` method which will return ALL presentables as an array (including hidden presentables).
+
 ## [2.0.0-beta.1] 14-12-2021
 ### Additions
 - Model classes can now specify presentable classes by passing the attribute name and the class path to the `$presentables` array attribute.

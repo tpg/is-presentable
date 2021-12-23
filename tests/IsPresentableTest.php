@@ -120,4 +120,20 @@ class IsPresentableTest extends TestCase
 
         self::assertNull($user->presentable()->nothing);
     }
+
+    /**
+     * @test
+     **/
+    public function presentables_can_be_cast_as_an_array(): void
+    {
+        $user = new User([
+            'name' => 'Test User'
+        ]);
+
+        self::assertSame([
+            'created_at' => now()->format('d F Y H:i a'),
+            'hidden' => 'hidden',
+            'test' => 'presentable-test',
+        ], $user->presentable()->toArray());
+    }
 }
