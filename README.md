@@ -23,8 +23,6 @@ That's fine, but it's not great. What if you wanted to format it? Well, you coul
 
 Laravel automatically hands the `created_at` timestamp to `Carbon` so this actually works nicely. But what if you need to use the same format in a whole lot of places. Now it gets frustrating. You could create a model accessor, which would work just fine, but then it feels like it's litering up your model with presentation data. And do you add the same accessor to all your models? This is where IsPresentable comes in.
 
-> There's a brand new version 2 on the way. If you'd like to try it out, check out the `2.x` branch.
-
 ## Installation
 
 As always, install into your Laravel app using Composer:
