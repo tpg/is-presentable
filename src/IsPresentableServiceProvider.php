@@ -10,6 +10,8 @@ class IsPresentableServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->singleton('is-presentable', IsPresentableService::class);
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/presentable.php', 'presentable'
         );

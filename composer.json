@@ -24,13 +24,13 @@
         }
     },
     "require": {
-        "php": "^7.4|^8.0",
-        "laravel/framework": "^8.0"
+        "php": "^8.0",
+        "laravel/framework": "^8.31"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.3",
-        "roave/security-advisories": "dev-master"
+        "orchestra/testbench": "^6.13",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
