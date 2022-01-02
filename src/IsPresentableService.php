@@ -13,6 +13,9 @@ use TPG\IsPresentable\Exceptions\InvalidPresentableClass;
 
 class IsPresentableService
 {
+    /**
+     * @throws InvalidPresentableClass
+     */
     public function getPresentables(object $object, bool $excludeHidden = false): array
     {
         $defaults = $this->getDefaults($object, $excludeHidden);
@@ -30,10 +33,13 @@ class IsPresentableService
         }))->toArray();
     }
 
-    protected function getDefaults(object $object, bool $excluseIfHidden): Collection
+    /**
+     * @throws InvalidPresentableClass
+     */
+    protected function getDefaults(object $object, bool $excludeIfHidden): Collection
     {
         return collect(config('presentable.defaults'))
-            ->mapWithKeys(fn (string $presentableClass, $attribute) => $this->renderClass($object, $presentableClass, $attribute, $excluseIfHidden));
+            ->mapWithKeys(fn (string $presentableClass, $attribute) => $this->renderClass($object, $presentableClass, $attribute, $excludeIfHidden));
     }
 
     public function getPresentableMethods(object $class): Collection
@@ -47,6 +53,9 @@ class IsPresentableService
             );
     }
 
+    /**
+     * @throws InvalidPresentableClass
+     */
     public function renderClass(object $object, string|array $className, string $attribute, bool $excludeIfHidden = false): array
     {
         $class = $className;
