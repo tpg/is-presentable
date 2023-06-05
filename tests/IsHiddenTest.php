@@ -5,14 +5,12 @@ declare(strict_types=1);
 use TPG\IsPresentable\Tests\User;
 
 it('will exclude presenters marked as hidden', function () {
-
     $user = new User([
         'name' => 'Test User',
     ]);
 
     expect($user->presentable()->hidden)->toBe('hidden')
         ->and(array_key_exists('hidden', $user->toArray()))->toBeFalse();
-
 });
 
 //namespace TPG\IsPresentable\Tests;

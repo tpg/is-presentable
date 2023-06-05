@@ -7,7 +7,6 @@ use TPG\IsPresentable\Exceptions\InvalidPresentableClass;
 use TPG\IsPresentable\Traits\IsPresentable;
 
 it('will throw an exception if the class is invalid', function () {
-
     $user = new class extends Model
     {
         use IsPresentable;

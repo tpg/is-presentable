@@ -9,17 +9,14 @@ use TPG\IsPresentable\Tests\User;
 use TPG\IsPresentable\Traits\IsPresentable;
 
 test('models can have presentable methods', function () {
-
     $user = new User([
         'name' => 'Test User',
     ]);
 
     expect($user->presentable()->test)->toBe('presentable-test');
-
 });
 
 test('presentables are included in the model array', function () {
-
     $user = new User([
         'name' => 'Test User',
     ]);
@@ -31,11 +28,9 @@ test('presentables are included in the model array', function () {
             'test' => 'presentable-test',
         ],
     ]);
-
 });
 
 test('class presenters can have options', function () {
-
     $user = new class extends Model
     {
         use IsPresentable;
@@ -48,11 +43,9 @@ test('class presenters can have options', function () {
     };
 
     expect($user->presentable()->options)->toBe('option 1 + option 2');
-
 });
 
 test('class presenters can use the attribute', function () {
-
     $user = new class extends Model
     {
         use IsPresentable;
@@ -77,11 +70,9 @@ test('class presenters can use the attribute', function () {
         'name' => 'slim',
         'age' => 'sixty',
     ]);
-
 });
 
 test('it can have a different array key', function () {
-
     $user = new User([
         'name' => 'Test User',
     ]);
@@ -95,7 +86,6 @@ test('it can have a different array key', function () {
             'test' => 'presentable-test',
         ],
     ]);
-
 });
 
 test('it will return null if presentable method doesnt exist', function () {
@@ -107,7 +97,6 @@ test('it will return null if presentable method doesnt exist', function () {
 });
 
 test('presentables can be cast as an array', function () {
-
     $user = new User([
         'name' => 'Test User',
     ]);

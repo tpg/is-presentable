@@ -68,8 +68,7 @@ class IsPresentableService
         string|array $className,
         string $attribute,
         bool $excludeIfHidden = false
-    ): array
-    {
+    ): array {
         $class = $className;
         $option = null;
 
