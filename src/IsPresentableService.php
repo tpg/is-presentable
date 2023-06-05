@@ -22,15 +22,17 @@ class IsPresentableService
 
         $presenters = collect($object->getPresentables())->merge($this->getPresentableMethods($object));
 
-        return $defaults->merge($presenters->mapWithKeys(function (string|array|ReflectionMethod $value, $key) use ($object, $excludeHidden) {
-            if (is_array($value) || is_string($value)) {
-                return $this->renderClass($object, $value, $key, $excludeHidden);
-            }
+        return $defaults->merge($presenters->mapWithKeys(
+            function (string|array|ReflectionMethod $value, $key) use ($object, $excludeHidden) {
+                if (is_array($value) || is_string($value)) {
+                    return $this->renderClass($object, $value, $key, $excludeHidden);
+                }
 
-            $name = Str::after($value->name, 'presentable');
+                $name = Str::after($value->name, 'presentable');
 
-            return [Str::snake($name) => $object->{'presentable'.$name}()];
-        }))->toArray();
+                return [Str::snake($name) => $object->{'presentable'.$name}()];
+            })
+        )->toArray();
     }
 
     /**
@@ -39,7 +41,12 @@ class IsPresentableService
     protected function getDefaults(object $object, bool $excludeIfHidden): Collection
     {
         return collect(config('presentable.defaults'))
-            ->mapWithKeys(fn (string $presentableClass, $attribute) => $this->renderClass($object, $presentableClass, $attribute, $excludeIfHidden));
+            ->mapWithKeys(fn (string $presentableClass, $attribute) => $this->renderClass(
+                $object,
+                $presentableClass,
+                $attribute,
+                $excludeIfHidden
+            ));
     }
 
     public function getPresentableMethods(object $class): Collection
@@ -56,7 +63,12 @@ class IsPresentableService
     /**
      * @throws InvalidPresentableClass
      */
-    public function renderClass(object $object, string|array $className, string $attribute, bool $excludeIfHidden = false): array
+    public function renderClass(
+        object $object,
+        string|array $className,
+        string $attribute,
+        bool $excludeIfHidden = false
+    ): array
     {
         $class = $className;
         $option = null;

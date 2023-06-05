@@ -20,17 +20,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TPG\\Tests\\": "tests/"
+            "TPG\\IsPresentable\\Tests\\": "tests/"
         }
     },
     "require": {
-        "php": "^8.0",
-        "laravel/framework": ">=8.31"
+        "php": "^8.1"
     },
     "require-dev": {
-        "orchestra/testbench": ">=6.13",
-        "phpunit/phpunit": "^9.5",
-        "roave/security-advisories": "dev-latest"
+        "orchestra/testbench": ">=7.0",
+        "roave/security-advisories": "dev-latest",
+        "pestphp/pest": "^1.23",
+        "pestphp/pest-plugin-laravel": "^1.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -39,6 +39,11 @@
             "providers": [
                 "TPG\\IsPresentable\\IsPresentableServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }

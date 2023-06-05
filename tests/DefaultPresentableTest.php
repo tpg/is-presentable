@@ -2,21 +2,34 @@
 
 declare(strict_types=1);
 
-namespace TPG\Tests;
+use TPG\IsPresentable\Tests\DefaultPresenter;
+use TPG\IsPresentable\Tests\User;
 
-class DefaultPresentableTest extends TestCase
-{
-    /**
-     * @test
-     **/
-    public function it_can_have_default_presentables(): void
-    {
-        config(['presentable.defaults' => [
-            'default' => DefaultPresenter::class,
-        ]]);
+it('can have default presentables', function () {
+    config(['presentable.defaults' => [
+        'default' => DefaultPresenter::class,
+    ]]);
 
-        $user = new User();
+    $user = new User();
 
-        self::assertSame('default-presenter', $user->presentable()->default);
-    }
-}
+    expect($user->presentable()->default)->toBe('default-presenter');
+});
+
+//namespace TPG\IsPresentable\Tests;
+//
+//class DefaultPresentableTest extends TestCase
+//{
+//    /**
+//     * @test
+//     **/
+//    public function it_can_have_default_presentables(): void
+//    {
+//        config(['presentable.defaults' => [
+//            'default' => DefaultPresenter::class,
+//        ]]);
+//
+//        $user = new User();
+//
+//        self::assertSame('default-presenter', $user->presentable()->default);
+//    }
+//}

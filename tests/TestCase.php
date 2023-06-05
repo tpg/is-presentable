@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TPG\Tests;
+namespace TPG\IsPresentable\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use TPG\IsPresentable\IsPresentableServiceProvider;
