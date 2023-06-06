@@ -19,5 +19,4 @@ it('will throw an exception if the class is invalid', function () {
     };
 
     $user->presentable()->bad_presenter;
-
 })->throws(InvalidPresentableClass::class);
