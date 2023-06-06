@@ -66,7 +66,7 @@ test('class presenters can use the attribute', function () {
         }
     };
 
-    expect($user->toArray())->toBe([
+    expect($user->toArray()['presentable'])->toBe([
         'name' => 'slim',
         'age' => 'sixty',
     ]);
@@ -101,7 +101,7 @@ test('presentables can be cast as an array', function () {
         'name' => 'Test User',
     ]);
 
-    expect($user->presentable()->toArray())->toBe([
+    expect($user->present->toArray())->toBe([
         'created_at' => now()->format('d F Y H:i a'),
         'hidden' => 'hidden',
         'test' => 'presentable-test',

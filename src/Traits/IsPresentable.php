@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TPG\IsPresentable\Traits;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use TPG\IsPresentable\IsPresentableService;
 use TPG\IsPresentable\Presenter;
 
@@ -46,5 +47,13 @@ trait IsPresentable
     protected function instance(): IsPresentableService
     {
         return app('is-presentable');
+    }
+
+    /**
+     * @return Attribute<Presenter>
+     */
+    public function present(): Attribute
+    {
+        return Attribute::get(fn () => $this->presentable());
     }
 }

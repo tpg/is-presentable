@@ -9,14 +9,14 @@ use TPG\IsPresentable\Contracts\PresenterInterface;
 
 class Presenter implements PresenterInterface
 {
-    protected array $presentables = [];
-
-    public function __construct(array $presentables)
+    /**
+     * @param  array<string, mixed>  $presentables
+     */
+    public function __construct(protected array $presentables)
     {
-        $this->presentables = $presentables;
     }
 
-    public function __get(string $key)
+    public function __get(string $key): mixed
     {
         return Arr::get(
             $this->presentables,
@@ -25,6 +25,9 @@ class Presenter implements PresenterInterface
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return $this->presentables;
